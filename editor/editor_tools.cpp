@@ -299,23 +299,32 @@ static String format_property_name(const String &p_ident) {
 }
 
 static String get_type_name(const String &p_type) {
-	if (p_type.is_empty() || p_type == "void")
-		return "void";
-	if (p_type == "int" || p_type == "float")
-		return "number";
-	if (p_type == "bool")
-		return "boolean";
-	if (p_type == "String" || p_type == "NodePath")
-		return "string";
+    if (p_type.is_empty() || p_type == "void")
+        return "void";
+    if (p_type == "int" || p_type == "float")
+        return "number";
+    if (p_type == "bool")
+        return "boolean";
+    if (p_type == "String" || p_type == "NodePath")
+        return "string";
+    if (p_type == "Dictionary")
+        return "object";
+    if (p_type == "Variant" || p_type.contains("*"))
+        return "any";
+    if (p_type == "StringName")
+        return "StringName | string";
+	if (p_type == "Transform3D")
+        return "Transform";
 	if (p_type == "Array")
-		return "any[]";
-	if (p_type == "Dictionary")
-		return "object";
-	if (p_type == "Variant" || p_type.contains("*"))
-		return "any";
-	if (p_type == "StringName")
-		return "StringName | string";
-	return p_type;
+        return "Array<any>";
+
+    // Handle array types
+    if (p_type.ends_with("[]")) {
+        String element_type = p_type.substr(0, p_type.length() - 2);
+        return get_type_name(element_type) + "[]";
+    }
+
+    return p_type;
 }
 
 String _export_method(const DocData::MethodDoc &p_method, bool is_function = false, bool is_static = false, bool ts_ignore_error = false) {
