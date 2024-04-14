@@ -305,8 +305,10 @@ static String get_type_name(const String &p_type) {
         return "number";
     if (p_type == "bool")
         return "boolean";
-    if (p_type == "String" || p_type == "NodePath")
+    if (p_type == "String")
         return "string";
+	if (p_type == "NodePath")
+        return "godot.NodePath";
     if (p_type == "Dictionary")
         return "object";
     if (p_type == "Variant" || p_type.contains("*"))

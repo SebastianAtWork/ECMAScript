@@ -128,6 +128,7 @@ declare module globalThis {
 declare module godot {
 
 	type GodotClass = new() => godot.Object;
+	type NodePath = string | (()=> godot.Node);
 
 	interface PropertyInfo {
 		type?: VariantType;
